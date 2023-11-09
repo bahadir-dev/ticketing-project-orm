@@ -1,16 +1,30 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.UserDTO;
+import com.cydeo.mapper.UserMapper;
+import com.cydeo.repository.UserRepository;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private final UserMapper userMapper;
+    private final UserRepository userRepository;
+
+    public UserServiceImpl(UserMapper userMapper, UserRepository userRepository) {
+        this.userMapper = userMapper;
+        this.userRepository = userRepository;
+    }
+
+
     @Override
     public List<UserDTO> listAllUsers() {
-        return null;
+
+        return   userRepository.findAll().stream().map(userMapper::convertToDto).collect(Collectors.toList());
     }
 
     @Override
