@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     private final ProjectService projectService;
     private final TaskService taskService;
 
-    public UserServiceImpl(UserMapper userMapper, UserRepository userRepository, @Lazy ProjectService projectService, TaskService taskService) {
+    public UserServiceImpl(UserMapper userMapper, UserRepository userRepository, ProjectService projectService, TaskService taskService) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.projectService = projectService;

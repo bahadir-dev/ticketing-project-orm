@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task,Long> {
 
-    @Query("SELECT COUNT(t) FROM Task t WHERE T.project.projectCode =?1 AND t.taskStatus <> 'COMPLETE'")
+    @Query("SELECT COUNT(t) FROM Task t WHERE t.project.projectCode =?1 AND t.taskStatus <> 'COMPLETE'")
     int totalNonCompletedTasks(String projectCode);
 
     @Query(value = "SELECT COUNT(*)" +
@@ -21,7 +21,7 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
 
     List<Task> findAllByProject(Project project);
 
-    List<Task> findAllByTaskStatusIsNotAssignedEmployee(Status status, User assignedEmployee);
+    List<Task> findAllByTaskStatusIsNotAndAssignedEmployee(Status status, User assignedEmployee);
 
     List<Task> findAllByTaskStatusAndAssignedEmployee(Status status, User assignedEmployee);
 
