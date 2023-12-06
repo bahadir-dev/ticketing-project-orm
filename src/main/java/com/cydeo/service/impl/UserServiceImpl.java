@@ -10,6 +10,7 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,13 +23,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ProjectService projectService;
     private final TaskService taskService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserMapper userMapper, UserRepository userRepository, ProjectService projectService, TaskService taskService) {
+    public UserServiceImpl(UserMapper userMapper, UserRepository userRepository, ProjectService projectService, TaskService taskService, PasswordEncoder passwordEncoder) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
         this.projectService = projectService;
         this.taskService = taskService;
+        this.passwordEncoder = passwordEncoder;
     }
+
 
     @Override
     public List<UserDTO> listAllUsers() {
@@ -45,7 +49,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(UserDTO dto) {
 
-        userRepository.save(userMapper.convertToEntity(dto));
+       // userRepository.save(userMapper.convertToEntity(dto));
+        dto.setEnabled(true);
+        User obj = userMapper.convertToEntity(dto);
+        obj.setPassWord(passwordEncoder.encode(obj.getPassWord()));
+
+        userRepository.save(obj);
+
     }
 
     @Override
